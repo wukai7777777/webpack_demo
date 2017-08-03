@@ -10,11 +10,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 config.output.publicPath = '/' //修改成开发时候的公共路径 就是跟路径
 
 
-let plugins = [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
-];
+let plugins = [];
 let routers = entryconfig.app;
 for (key in routers) {
     plugins.push(new WebpackHtmlPlugin({

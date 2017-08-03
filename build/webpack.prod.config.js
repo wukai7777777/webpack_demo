@@ -6,11 +6,11 @@ const webpack = require('webpack');
 // 引入基本配置
 var config = require('./webpack.config');
 
-config.vue = {
-    loaders: {
-        css: ExtractTextPlugin.extract("css")
-    }
-};
+// config.vue = {
+//     loaders: {
+//         css: ExtractTextPlugin.extract("css")
+//     }
+// };
 
 config.plugins.push(
      // 提取css为单文件

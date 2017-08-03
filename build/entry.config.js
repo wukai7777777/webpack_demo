@@ -6,5 +6,5 @@ module.exports = {
         'login'
     ],
     //webpack打包分析
-    analyzer: true
+    analyzer: false
 }
