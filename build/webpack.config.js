@@ -3,7 +3,11 @@ const path = require('path');
 const webpack = require('webpack');
 const entryConfig = require('./entry.config');
 const WebpackHtmlPlugin = require('webpack-html-plugin');
-let entry = {}; // 配置入口文件
+let entry = {
+        vendors: [
+            'Vue'
+        ]
+    }; // 配置入口文件
 entryConfig.app.forEach((v)=>{
     entry[v] = path.resolve(__dirname, `../app/${v}/${v}.js`);
 })
@@ -37,23 +41,6 @@ module.exports = {
         }
     },
     module: {
-        
-        // loaders: [
-        //     // 使用vue-loader 加载 .vue 结尾的文件
-        //     {
-        //         test: /\.vue$/, 
-        //         loader: 'vue-loader'   
-        //     },
-        //     {
-        //         test: /\.js$/,
-        //         loader: 'babel-loader?presets=es2015',
-        //         exclude: /node_modules/
-        //     },
-        //     {
-        //         test: /\.css$/, 
-        //         loader: "style!css"
-        //     }
-        // ]
         rules: [
             {
                 test: /\.(js|vue)$/,
