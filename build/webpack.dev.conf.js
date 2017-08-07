@@ -9,7 +9,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 entryConfig.app.forEach((v)=>{
     config.entry[v] = [
-        'webpack-hot-middleware/client',
+        './build/dev-client',
         path.resolve(__dirname, `../app/${v}/${v}.js`)
     ];
 })

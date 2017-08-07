@@ -2,7 +2,6 @@ const express = require('express');
 const webpack = require('webpack');
 const WebpackDevMiddleware = require('webpack-dev-middleware');
 const config = require('./webpack.dev.conf');
-const Hotmiddleware = require('webpack-hot-middleware');
 
 
 //创建express 实例
@@ -32,8 +31,19 @@ app.use(WebpackDevMiddleware(compiler, {
      stats: defaultStatsOptions
 }))
 
-//使用并注册 webpack－hot－middleware 中间件
-app.use(Hotmiddleware(compiler))
+//使用 webpack－hot－middleware 中间件
+var Hotmiddleware = require('webpack-hot-middleware')(compiler);
+
+// webpack插件，监听html文件改变事件
+compiler.plugin('compilation', function (compilation) {
+    compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+        // 发布事件
+        Hotmiddleware.publish({ action: 'reload' })
+        cb()
+    })
+})
+//注册 webpack－hot－middleware 中间件
+app.use(Hotmiddleware)
 
 app.listen(8000, function(err){
     if(err){

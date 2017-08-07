@@ -17,6 +17,5 @@ config.plugins.push(
     new ExtractTextPlugin("../[name].[contenthash].css")
 )
 
-console.log(config.plugins);
 
 module.exports = config;
