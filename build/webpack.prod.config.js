@@ -8,13 +8,17 @@ const entry = require('./entry.config');
 
 // 引入基本配置
 var config = require('./webpack.config');
-
-rm('-rf', config.output.path);
-try{
-    fs.mkdirSync(config.output.path);
-}catch(e){
-    console.log(e);
+if(fs.existsSync(config.output.path)){
+    try{
+        rm('-rf', config.output.path);
+        //fs.mkdirSync(config.output.path);
+    }catch(e){
+        console.log(e);
+    }
 }
+
+
+
 
 config.plugins = [
     // 提取css
