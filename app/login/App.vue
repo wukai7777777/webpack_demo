@@ -33,7 +33,7 @@ html{
     background: cyan;
     line-height: 24px;
     font-size:14px;
-    color: #666;
+    color:pink;
 }
 
 </style>

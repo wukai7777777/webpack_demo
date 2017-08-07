@@ -1,5 +1,6 @@
 // nodejs 中的path模块
 const path = require('path');
+const webpack = require('webpack');
 const entryConfig = require('./entry.config');
 const WebpackHtmlPlugin = require('webpack-html-plugin');
 let entry = {}; // 配置入口文件
@@ -32,25 +33,49 @@ module.exports = {
     resolve: {
         extensions: ['.js', '.vue'],
         alias: {
-            'vue$': 'vue/dist/vue.common.js'
+            'vue$': 'vue/dist/vue.esm.js'
         }
     },
     module: {
         
-        loaders: [
-            // 使用vue-loader 加载 .vue 结尾的文件
+        // loaders: [
+        //     // 使用vue-loader 加载 .vue 结尾的文件
+        //     {
+        //         test: /\.vue$/, 
+        //         loader: 'vue-loader'   
+        //     },
+        //     {
+        //         test: /\.js$/,
+        //         loader: 'babel-loader?presets=es2015',
+        //         exclude: /node_modules/
+        //     },
+        //     {
+        //         test: /\.css$/, 
+        //         loader: "style!css"
+        //     }
+        // ]
+        rules: [
             {
-                test: /\.vue$/, 
-                loader: 'vue-loader'   
+                test: /\.(js|vue)$/,
+                loader: 'eslint-loader',
+                enforce: 'pre',
+                include: [
+                    path.resolve(__dirname ,'../app/**')
+                ],
+                options: {
+                    formatter: require('eslint-friendly-formatter')
+                }
+            },
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader?presets=es2015',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/, 
-                loader: "style!css"
+                loader: 'babel-loader',
+                include: [
+                    path.resolve(__dirname ,'../app/**'),
+                ]
             }
         ]
     },

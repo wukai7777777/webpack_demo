@@ -1,19 +1,34 @@
 //单独修改开发配置 为了不影响webpack.config.js 执行构建的配置
-const WebpackHtmlPlugin = require('webpack-html-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const entryconfig = require('./entry.config');
 const config = require('./webpack.config');
 const webpack = require('webpack');
+const entryConfig = require('./entry.config');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+entryConfig.app.forEach((v)=>{
+    config.entry[v] = [
+        'webpack-hot-middleware/client',
+        path.resolve(__dirname, `../app/${v}/${v}.js`)
+    ];
+})
 
 config.output.publicPath = '/' //修改成开发时候的公共路径 就是跟路径
 
 
-let plugins = [];
+let plugins = [
+    // 添加三个插件
+    //new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.DefinePlugin({
+        'process.env.NODE_ENV': '"development"'
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+];
 let routers = entryconfig.app;
 for (key in routers) {
-    plugins.push(new WebpackHtmlPlugin({
+    plugins.push(new HtmlWebpackPlugin({
         chunks: ['vendors', routers[key]],
         filename: `app/${routers[key]}/${routers[key]}.html`,
         template: path.resolve(__dirname, `../app/${routers[key]}/${routers[key]}.html`),
