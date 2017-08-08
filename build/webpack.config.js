@@ -1,7 +1,7 @@
 // nodejs 中的path模块
 const path = require('path');
 const webpack = require('webpack');
-const entryConfig = require('./entry.config');
+const entryConfig = require('../entry.config');
 const WebpackHtmlPlugin = require('webpack-html-plugin');
 let entry = {
         vendors: [

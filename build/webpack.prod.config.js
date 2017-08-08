@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const entry = require('./entry.config');
+const entry = require('../entry.config');
 
 // 引入基本配置
 var config = require('./webpack.config');

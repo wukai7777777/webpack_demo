@@ -1,13 +1,12 @@
 //单独修改开发配置 为了不影响webpack.config.js 执行构建的配置
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const entryconfig = require('./entry.config');
+const entryconfig = require('../entry.config');
 const config = require('./webpack.config');
 const webpack = require('webpack');
-const entryConfig = require('./entry.config');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-entryConfig.app.forEach((v)=>{
+entryconfig.app.forEach((v)=>{
     config.entry[v] = [
         './build/dev-client',
         path.resolve(__dirname, `../app/${v}/${v}.js`)
@@ -25,6 +24,11 @@ let plugins = [
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    //提取公共框架 如vue
+    new webpack.optimize.CommonsChunkPlugin({
+        name: 'vendors',
+        filename: 'vendors.js',
+    }),
 ];
 let routers = entryconfig.app;
 for (key in routers) {
