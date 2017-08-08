@@ -6,5 +6,7 @@ module.exports = {
         'login'
     ],
     //webpack打包分析
-    analyzer: false
+    analyzer: false,
+    //输出文件夹
+    output: 'output'
 }

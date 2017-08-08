@@ -8,9 +8,9 @@ const entry = require('./entry.config');
 
 // 引入基本配置
 var config = require('./webpack.config');
-if(fs.existsSync(config.output.path)){
+if(fs.existsSync(path.join(__dirname, `../${entry.output}`))){
     try{
-        rm('-rf', config.output.path);
+        rm('-rf', path.join(__dirname, `../${entry.output}`));
         //fs.mkdirSync(config.output.path);
     }catch(e){
         console.log(e);
