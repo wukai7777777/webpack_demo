@@ -17,7 +17,7 @@ if(fs.existsSync(path.join(__dirname, `../${entry.output}`))){
     }
 }
 
-
+config.output.publicPath = 'static/'
 
 
 config.plugins = [
@@ -55,11 +55,6 @@ config.plugins = [
         warnings: false
       },
       comments: false
-    }),
-    //提取公共框架 如vue
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendors',
-        filename: 'vendors.js',
     }),
 ];
 
