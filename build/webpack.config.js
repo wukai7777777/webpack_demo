@@ -19,7 +19,6 @@ entryConfig.app.forEach((v)=>{
 })
 
 
-console.log(require.resolve(`${__dirname}/../dll/vendor.dll.js`));
 //插件配置
 let routers = entryConfig.app;
 let plugins = [
@@ -31,10 +30,10 @@ let plugins = [
     new webpack.optimize.CommonsChunkPlugin({
         name: 'bundle',
         filename: 'bundle.js',
-        //minChunks: Math.ceil(grainConfig.app.length / 2)  //抽取出一半以上引用的模块
+        minChunks: Math.ceil(entryConfig.app.length / 2)  //抽取出一半以上引用的模块
     }),
     /* 插入Dll文件 */
-    new AddAssetHtmlPlugin({ filepath: require.resolve(`${__dirname}/../dll/vendor.dll.js`), includeSourcemap: false }),
+    new AddAssetHtmlPlugin({ filepath: require.resolve('../dll/vendor.dll.js'), includeSourcemap: false }),
     /* 使用happypack */
     new HappyPack({
         id: 'js',
@@ -54,8 +53,6 @@ let plugins = [
 //     }))
 // }
 
-console.log(path.join(__dirname, '../output/static'));
-console.log(path.join(__dirname, '../node_modules/vue/dist/vue.esm.js'));
 module.exports = {
     // 入口文件，path.resolve()方法，可以结合我们给定的两个参数最后生成绝对路径，最终指向的就是我们的index.js文件
     entry,
@@ -69,7 +66,7 @@ module.exports = {
         sourceMapFilename: '[name].map',
     },
     resolve: {
-        extensions: ['.js', '.vue'],
+        extensions: ['.js', '.vue', 'json'],
         alias: {
             'vue$': path.join(__dirname, '../node_modules/vue/dist/vue.esm.js')
         },
@@ -78,19 +75,20 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|vue)$/,
-                loader: 'eslint-loader',
-                enforce: 'pre',
-                include: [
-                    path.resolve(__dirname ,'../app/**')
-                ],
-                options: {
-                    formatter: require('eslint-friendly-formatter')
+                test: /\.(png|jpg|gif|svg)$/,
+                use: [
+                {
+                    loader: 'url-loader',
+                    options: {
+                    limit: 1000,
+                    name: '[name].[ext]?[hash:7]'
+                    }
                 }
+                ]
             },
             {
-                test: /\.vue$/,
-                loader: 'vue-loader'
+                test: /\.json$/,
+                use: 'json-loader'
             },
             {
                 test: /\.js$/,

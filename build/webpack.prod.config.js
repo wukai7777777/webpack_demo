@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const Merge = require('webpack-merge');
 const entry = require('../entry.config');
 
 // 引入基本配置
@@ -19,9 +20,44 @@ if(fs.existsSync(path.join(__dirname, `../${entry.output}`))){
 
 config.output.publicPath = 'static/'
 
+config.output.filename = '[name].[hash].js'
 
-config.plugins = [
-    // 提取css
+// css happypack
+config.module.rules.push({
+  test: /\.vue$/,
+  use: {
+    loader: 'vue-loader'
+  }
+});
+
+let htmls = [];
+entry.app.map((v) => {
+    htmls.push(new HtmlWebpackPlugin({
+        chunks: ['bundle', v],
+        filename: `../${v}.html`,
+        template: path.resolve(__dirname, `../app/${v}/${v}.html`),
+        chunksSortMode: 'dependency',
+        minify: { removeComments: true, collapseWhitespace: true },
+        inject: true,
+    }))
+});
+
+module.exports = Merge(config, {
+  devtool: false,
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false
+    }),
+    // pro
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    // new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.AggressiveMergingPlugin(),
+    // 提取
     new ExtractTextPlugin("../[name].[contenthash].css"),
     // 编译css
     new webpack.LoaderOptionsPlugin({
@@ -43,29 +79,19 @@ config.plugins = [
          }  
       }  
     }),
+    ...htmls,
     // 压缩
     new webpack.optimize.UglifyJsPlugin({
-      beautify: false,
-      mangle: {
+    beautify: false,
+    mangle: {
         screw_ie8: true,
         keep_fnames: true
-      },
-      compress: {
+    },
+    compress: {
         screw_ie8: true,
         warnings: false
-      },
-      comments: false
-    }),
-];
-
-let routers = entry.app;
-for(key in routers){
-    config.plugins.push(new HtmlWebpackPlugin({
-        chunks: ['vendors', routers[key]],
-        filename: `../${routers[key]}.html`,
-        template: path.resolve(__dirname, `../app/${routers[key]}/${routers[key]}.html`),
-        inject: true,
-    }))
-}
-
-module.exports = config;
+    },
+    comments: false
+    })
+  ]
+});

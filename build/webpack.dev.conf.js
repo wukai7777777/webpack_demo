@@ -10,7 +10,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 entryconfig.app.forEach((v)=>{
     config.entry[v] = [
-        //'./build/dev-client',
+        'webpack-hot-middleware/client',
         path.resolve(__dirname, `../app/${v}/${v}.js`)
     ];
 })
@@ -29,20 +29,6 @@ config.module.rules.push({
 });
 
 
-let plugins = [
-    // 添加三个插件
-    //new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.DefinePlugin({
-        'process.env.NODE_ENV': '"development"'
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    //提取公共框架 如vue
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendors',
-        filename: 'vendors.js',
-    }),
-];
 // let routers = entryconfig.app;
 // for (key in routers) {
 //     plugins.push(new HtmlWebpackPlugin({
@@ -57,6 +43,7 @@ let plugins = [
 //         }
 //     }))
 // }
+
 if (entryconfig.analyzer) {
     config.plugins.push(new BundleAnalyzerPlugin({
         analyzerMode: 'server',
@@ -74,10 +61,10 @@ module.exports = Merge(config, {
   // devtool: '#cheap-module-eval-source-map',
   cache: true,
   plugins: [
-    // new webpack.optimize.OccurenceOrderPlugin(),
-    // new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    // new ExtractTextPlugin("../[name].[contenthash].css"),
+    //new ExtractTextPlugin("[name].css"),
     new webpack.LoaderOptionsPlugin({
       test:/\.vue$/,
       loader: 'vue-loader',

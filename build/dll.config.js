@@ -20,17 +20,17 @@ module.exports = {
         context: path.join(__dirname, '..／'), // 指定一个路径作为上下文环境，需要与DllReferencePlugin的context参数保持一致，建议统一设置为项目根目录
         }),
         // 压缩
-        // new webpack.optimize.UglifyJsPlugin({
-        // beautify: false,
-        // mangle: {
-        //     screw_ie8: true,
-        //     keep_fnames: true
-        // },
-        // compress: {
-        //     screw_ie8: true,
-        //     warnings: false
-        // },
-        // comments: false
-        // })
+        new webpack.optimize.UglifyJsPlugin({
+        beautify: false,
+        mangle: {
+            screw_ie8: true,
+            keep_fnames: true
+        },
+        compress: {
+            screw_ie8: true,
+            warnings: false
+        },
+        comments: false
+        })
     ],
 }
