@@ -8,12 +8,15 @@ const webpack = require('webpack');
 const Merge = require('webpack-merge');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-entryconfig.app.forEach((v)=>{
-    config.entry[v] = [
-        'webpack-hot-middleware/client',
-        path.resolve(__dirname, `../app/${v}/${v}.js`)
-    ];
-})
+if(entryconfig.hot == true){  //是否开启热更新
+    entryconfig.app.forEach((v)=>{
+      config.entry[v] = [
+          'webpack-hot-middleware/client',
+          path.resolve(__dirname, `../app/${v}/${v}.js`)
+      ];
+  })
+
+}
 
 //config.output.publicPath = '/' //修改成开发时候的公共路径 就是跟路径
 

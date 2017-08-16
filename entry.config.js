@@ -14,5 +14,5 @@ module.exports = {
 		'vue',
     ],
     //热跟新使用
-    hot: false
+    hot: true
 }

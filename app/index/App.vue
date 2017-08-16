@@ -15,7 +15,7 @@
 
 <style>
 html {
-    background: cyan;
+    background: yellow;
 }
 
 html ul{
@@ -24,10 +24,10 @@ html ul{
 }
 
 ul li{
-    color: purple;
+    color: cyan;
     font-size: 16px; 
     line-height: 28px;
-    border:1px solid #ccc;
+    border:1px solid red;
     margin-top: 10px;
 }
 
