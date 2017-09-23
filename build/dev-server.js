@@ -99,7 +99,7 @@ if(entryconfig.hot == true){
   app.use(Hotmiddleware)
 }
 
-app.listen(8000, function(err){
+app.listen(8002, function(err){
     if(err){
         console.log(err);
         return false;

@@ -17,7 +17,7 @@ if(entryconfig.hot == true){  //是否开启热更新
   })
 
 }
-
+console.log(config.entry)
 //config.output.publicPath = '/' //修改成开发时候的公共路径 就是跟路径
 
 // css happypack

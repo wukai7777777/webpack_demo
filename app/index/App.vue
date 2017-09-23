@@ -10,6 +10,10 @@
                 msg: 'hello word'
             }
         },
+        created(){
+
+            alert(1231231)
+        }
     }
 </script>
 
@@ -24,11 +28,12 @@ html ul{
 }
 
 ul li{
-    color: cyan;
+    color: red;
     font-size: 16px; 
     line-height: 28px;
-    border:1px solid red;
+    border:1px solid #000;
     margin-top: 10px;
+    text-shadow: 0 0 0 10px pink;
 }
 
 </style>
