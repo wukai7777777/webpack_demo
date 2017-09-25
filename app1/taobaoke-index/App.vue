@@ -105,6 +105,7 @@
      * 公共变量
      */
     let filterTimer = null;
+    let shareTimer = null;
     window.tbkPageObj = {
         xhr: {}
     }
@@ -135,7 +136,8 @@
                     commoditList: {}
                 },
                 isLoadPage: true,
-                bannerHeight: Math.ceil(document.documentElement.clientWidth * 184 / 670)
+                bannerHeight: Math.ceil(document.documentElement.clientWidth * 184 / 670),
+                shareing: false
             }
         },
         computed: {
@@ -284,9 +286,12 @@
              */
             commoditShare(item) {
                 let self = this;
+                console.log(self.shareing);
+                if (self.shareing) return;
                 // 检测用户登陆状态
                 KCucApi.getUserInfo(function(userInfo) {
                     if (userInfo.userId != '0') {
+                        KCtbkIndexPage.loadPageStatus('loading');
                         //登录
                         Util.ajax({
                             url: `/tbk/share`,
@@ -301,6 +306,8 @@
                                 netNum: 0
                             },
                             success(data) {
+                                KCtbkIndexPage.loadPageStatus('loadSuccess');
+                                self.shareing = false;
                                 switch(+data.code) {
                                     case -606:
                                         window.location.href = 'doumi://login';
@@ -313,9 +320,11 @@
                                 }
                             },
                             error(xhr, status) {
+                                self.shareing = false;
                                 // self.ajaxAllCase();
                             },
                             noNetwork() {
+                                self.shareing = false;
                                 // self.ajaxAllCase();
                             }
                         });
@@ -351,7 +360,7 @@
                 // 清除定时器
                 if (filterTimer) clearTimeout(filterTimer);
                 // 中断ajax请求, 避免多次不必要的请求, 只保留最近一次
-                if (Util.isObject(window.tbkPageObj.xhr.commoditList) && +window.tbkPageObj.xhr.commoditList.readyState < 4) {
+                if (Util.isObject(window.tbkPageObj.xhr.commoditList) && +window.tbkPageObj.xhr.commoditList.readyState != 4) {
                     console.log(`ajax ${window.tbkPageObj.xhr.commoditList.readyState}`);
                     window.tbkPageObj.xhr.commoditList.abort();
                 }
@@ -361,6 +370,7 @@
 
                 // 创建定时器, 避免快速点击, 重复获取
                 filterTimer = setTimeout(function() {
+                    console.log(12123)
                     // 有缓存
                     if (channel in self.commoditList) {
                         console.log('has cache')

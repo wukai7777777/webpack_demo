@@ -49,6 +49,8 @@
     import KCloggerApi from 'clientApi/KCloggerApi'
     import { KCpageInstances } from 'clientApi/KCpage'
     import KCtbkIncomePage from 'clientApi/KctbkIncomePage'
+    import KCucPage from 'clientApi/KCucPage'
+    
     /**
      *  引入组件 以及 组件mutation
      *  example : import comName from 'components/com-name/com-name'
@@ -184,6 +186,10 @@
                 self.$store.commit(combomloading_mt.SET_ISSHOW, false);
                 self.getIncomeList();
             }
+            // 常见问题
+            window.tbkFaq = function() {
+                window.location.href = 'http://baidu.com';
+            }
         },
         created() {
             let self = this;
@@ -203,6 +209,15 @@
                     self.page = 1;
                     self.getIncomeList();
                 }
+            });
+            // 设置title bar 文案和动作
+            KCucPage.updateTitleBar({
+                leftDisplay: false,
+                leftText: '',
+                leftAction: '',
+                rightDisplay: true,
+                rightText: '常见问题',
+                rightAction: 'tbkFaq'
             });
         }
     }
