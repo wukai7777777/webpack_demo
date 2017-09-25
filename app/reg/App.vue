@@ -18,8 +18,8 @@ html{
     background: cyan;
 }
 div{
-    color: purple;
+    color: red;
     font-size: 30px;
-    background: yellow;
+    background: pink;
 }
 </style>
